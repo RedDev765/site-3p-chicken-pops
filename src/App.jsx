@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useScrollReveal, useCountUp } from './useScrollReveal'
 import './App.css'
 
 const menuCategories = [
@@ -133,9 +134,33 @@ const reviews = [
   { name: 'Nadia H.', text: 'Ambiance cool, nourriture délicieuse et prix corrects. Le Twist Storm est super pour un repas lécher. Je recommande vivement !', rating: 5 },
 ]
 
+function StatCard({ number, suffix, label, delay }) {
+  const [ref, isVisible] = useScrollReveal({ threshold: 0.3 })
+  const count = useCountUp(parseInt(number), 2000, isVisible)
+
+  return (
+    <div ref={ref} className={`stat card-hover reveal delay-${delay} ${isVisible ? 'visible' : ''}`}>
+      <span className="stat-number">{count}{suffix}</span>
+      <span className="stat-label">{label}</span>
+    </div>
+  )
+}
+
 function App() {
   const [activeCategory, setActiveCategory] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const [heroRef, heroVisible] = useScrollReveal({ threshold: 0.1 })
+  const [aboutTitleRef, aboutTitleVisible] = useScrollReveal()
+  const [aboutTextRef, aboutTextVisible] = useScrollReveal()
+  const [menuTitleRef, menuTitleVisible] = useScrollReveal()
+  const [menuCatRef, menuCatVisible] = useScrollReveal()
+  const [menuItemsRef, menuItemsVisible] = useScrollReveal()
+  const [reviewsTitleRef, reviewsTitleVisible] = useScrollReveal()
+  const [contactTitleRef, contactTitleVisible] = useScrollReveal()
+  const [contactInfoRef, contactInfoVisible] = useScrollReveal({ threshold: 0.2 })
+  const [contactMapRef, contactMapVisible] = useScrollReveal({ threshold: 0.2 })
+  const [footerRef, footerVisible] = useScrollReveal({ threshold: 0.1 })
 
   return (
     <div className="app">
@@ -162,19 +187,30 @@ function App() {
 
       {/* HERO */}
       <section id="accueil" className="hero">
-        <div className="hero-overlay"></div>
-        <div className="container hero-content">
-          <img src="/logo.png" alt="3P Chicken Pops" className="hero-logo" />
+        <div className="hero-particles">
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className="particle" style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`
+            }}></div>
+          ))}
+        </div>
+        <div className="container hero-content" ref={heroRef}>
+          <div className={`hero-logo-wrapper reveal-scale ${heroVisible ? 'visible' : ''}`}>
+            <img src="/logo.png" alt="3P Chicken Pops" className="hero-logo" />
+          </div>
           <h1 className="hero-title">
-            <span className="hero-name">CHICKEN POPS</span>
+            <span className={`hero-name reveal delay-2 ${heroVisible ? 'visible' : ''}`}>CHICKEN POPS</span>
           </h1>
-          <p className="hero-tagline">Le goût du poulet croustillant, revisité</p>
-          <p className="hero-address">19 Rue Iligh, Agadir 80000</p>
-          <div className="hero-buttons">
+          <p className={`hero-tagline reveal delay-3 ${heroVisible ? 'visible' : ''}`}>Le goût du poulet croustillant, revisité</p>
+          <p className={`hero-address reveal delay-4 ${heroVisible ? 'visible' : ''}`}>19 Rue Iligh, Agadir 80000</p>
+          <div className={`hero-buttons reveal delay-5 ${heroVisible ? 'visible' : ''}`}>
             <a href="#menu" className="btn btn-primary">Voir le Menu</a>
             <a href="#contact" className="btn btn-outline">Nous Contacter</a>
           </div>
-          <div className="hero-info">
+          <div className={`hero-info reveal delay-6 ${heroVisible ? 'visible' : ''}`}>
             <div className="hero-info-item">
               <span className="hero-info-icon">&#128337;</span>
               <span>Tous les jours 11h - 3h</span>
@@ -189,15 +225,23 @@ function App() {
             </div>
           </div>
         </div>
+        <div className="hero-scroll-indicator">
+          <div className="scroll-mouse">
+            <div className="scroll-wheel"></div>
+          </div>
+          <span>Scroll</span>
+        </div>
       </section>
 
       {/* ABOUT */}
       <section id="apropos" className="about section">
         <div className="container">
-          <h2 className="section-title">Notre Histoire</h2>
-          <div className="accent-line"></div>
+          <div ref={aboutTitleRef} className={`reveal ${aboutTitleVisible ? 'visible' : ''}`}>
+            <h2 className="section-title">Notre Histoire</h2>
+            <div className="accent-line"></div>
+          </div>
           <div className="about-grid">
-            <div className="about-text">
+            <div ref={aboutTextRef} className={`about-text reveal-left ${aboutTextVisible ? 'visible' : ''}`}>
               <p>
                 Née dans le coeur d'Agadir, <strong>3P Chicken Pops</strong> est née d'une passion simple :
                 offrir le meilleur poulet croustillant de la ville. Notre secret ? Des recettes maison
@@ -215,22 +259,10 @@ function App() {
               </p>
             </div>
             <div className="about-stats">
-              <div className="stat">
-                <span className="stat-number">97%</span>
-                <span className="stat-label">Clients satisfaits</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">100%</span>
-                <span className="stat-label">Sauce maison</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">7j/7</span>
-                <span className="stat-label">Ouvert tous les jours</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">16h</span>
-                <span className="stat-label">De service non-stop</span>
-              </div>
+              <StatCard number="97" suffix="%" label="Clients satisfaits" delay={1} />
+              <StatCard number="100" suffix="%" label="Sauce maison" delay={2} />
+              <StatCard number="7" suffix="j/7" label="Ouvert tous les jours" delay={3} />
+              <StatCard number="16" suffix="h" label="De service non-stop" delay={4} />
             </div>
           </div>
         </div>
@@ -239,11 +271,13 @@ function App() {
       {/* MENU */}
       <section id="menu" className="menu section">
         <div className="container">
-          <h2 className="section-title">Notre Menu</h2>
-          <div className="accent-line"></div>
-          <p className="section-subtitle">Des saveurs explosives pour tous les goûts</p>
+          <div ref={menuTitleRef} className={`reveal ${menuTitleVisible ? 'visible' : ''}`}>
+            <h2 className="section-title">Notre Menu</h2>
+            <div className="accent-line"></div>
+            <p className="section-subtitle">Des saveurs explosives pour tous les goûts</p>
+          </div>
 
-          <div className="menu-categories">
+          <div ref={menuCatRef} className={`menu-categories reveal ${menuCatVisible ? 'visible' : ''}`}>
             {menuCategories.map((cat, i) => (
               <button
                 key={i}
@@ -255,9 +289,9 @@ function App() {
             ))}
           </div>
 
-          <div className="menu-items">
+          <div ref={menuItemsRef} className={`menu-items reveal ${menuItemsVisible ? 'visible' : ''}`}>
             {menuCategories[activeCategory].items.map((item, i) => (
-              <div key={i} className="menu-item">
+              <div key={`${activeCategory}-${i}`} className="menu-item" style={{ animationDelay: `${i * 0.05}s` }}>
                 <div className="menu-item-info">
                   <h3 className="menu-item-name">{item.name}</h3>
                   <p className="menu-item-desc">{item.desc}</p>
@@ -272,19 +306,15 @@ function App() {
       {/* REVIEWS */}
       <section id="avis" className="reviews section">
         <div className="container">
-          <h2 className="section-title">Ce que disent nos clients</h2>
-          <div className="accent-line"></div>
-          <p className="section-subtitle">97% de nos clients nous recommandent</p>
+          <div ref={reviewsTitleRef} className={`reveal ${reviewsTitleVisible ? 'visible' : ''}`}>
+            <h2 className="section-title">Ce que disent nos clients</h2>
+            <div className="accent-line"></div>
+            <p className="section-subtitle">97% de nos clients nous recommandent</p>
+          </div>
 
           <div className="reviews-grid">
             {reviews.map((review, i) => (
-              <div key={i} className="review-card">
-                <div className="review-stars">
-                  {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-                </div>
-                <p className="review-text">"{review.text}"</p>
-                <span className="review-author">{review.name}</span>
-              </div>
+              <ReviewCard key={i} review={review} index={i} />
             ))}
           </div>
         </div>
@@ -293,10 +323,12 @@ function App() {
       {/* CONTACT */}
       <section id="contact" className="contact section">
         <div className="container">
-          <h2 className="section-title">Nous Trouver</h2>
-          <div className="accent-line"></div>
+          <div ref={contactTitleRef} className={`reveal ${contactTitleVisible ? 'visible' : ''}`}>
+            <h2 className="section-title">Nous Trouver</h2>
+            <div className="accent-line"></div>
+          </div>
           <div className="contact-grid">
-            <div className="contact-info">
+            <div ref={contactInfoRef} className={`contact-info reveal-left ${contactInfoVisible ? 'visible' : ''}`}>
               <div className="contact-item">
                 <span className="contact-icon">&#128205;</span>
                 <div>
@@ -326,7 +358,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="contact-map">
+            <div ref={contactMapRef} className={`contact-map reveal-right ${contactMapVisible ? 'visible' : ''}`}>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.85!2d-9.57!3d30.42!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s19+Rue+Iligh%2C+Agadir!5e0!3m2!1sfr!2sma!4v1"
                 width="100%"
@@ -343,7 +375,7 @@ function App() {
       </section>
 
       {/* FOOTER */}
-      <footer className="footer">
+      <footer ref={footerRef} className={`footer reveal ${footerVisible ? 'visible' : ''}`}>
         <div className="container footer-content">
           <div className="footer-brand">
             <img src="/logo.png" alt="3P Chicken Pops" className="footer-logo" />
@@ -373,6 +405,23 @@ function App() {
           <p>&copy; 2026 3P Chicken Pops. Tous droits réservés.</p>
         </div>
       </footer>
+    </div>
+  )
+}
+
+function ReviewCard({ review, index }) {
+  const [ref, isVisible] = useScrollReveal({ threshold: 0.2 })
+
+  return (
+    <div
+      ref={ref}
+      className={`review-card card-hover reveal delay-${(index % 3) + 1} ${isVisible ? 'visible' : ''}`}
+    >
+      <div className="review-stars">
+        {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+      </div>
+      <p className="review-text">"{review.text}"</p>
+      <span className="review-author">{review.name}</span>
     </div>
   )
 }
