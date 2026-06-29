@@ -166,7 +166,6 @@ function App() {
         <div className="container hero-content">
           <img src="/logo.png" alt="3P Chicken Pops" className="hero-logo" />
           <h1 className="hero-title">
-            <span className="hero-3p">3P</span>
             <span className="hero-name">CHICKEN POPS</span>
           </h1>
           <p className="hero-tagline">Le goût du poulet croustillant, revisité</p>

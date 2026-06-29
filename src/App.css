@@ -20,29 +20,24 @@
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  transition: transform 0.3s;
+}
+
+.nav-logo:hover {
+  transform: scale(1.05);
 }
 
 .nav-logo-img {
-  height: 50px;
-  width: auto;
+  height: 55px;
+  width: 55px;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 8px rgba(227, 24, 55, 0.4));
+  transition: filter 0.3s;
 }
 
-.logo-3p {
-  font-family: var(--font-heading);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--red);
-  line-height: 1;
-}
-
-.logo-text {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 3px;
-  color: var(--white);
-  text-transform: uppercase;
+.nav-logo:hover .nav-logo-img {
+  filter: drop-shadow(0 0 15px rgba(227, 24, 55, 0.7));
 }
 
 .nav-links {
@@ -150,10 +145,18 @@
 }
 
 .hero-logo {
-  width: 180px;
-  height: auto;
-  margin: 0 auto 2rem;
-  filter: drop-shadow(0 0 30px rgba(227, 24, 55, 0.3));
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 40px rgba(227, 24, 55, 0.5));
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .hero-badge {
@@ -173,23 +176,14 @@
   margin-bottom: 1.5rem;
 }
 
-.hero-3p {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: clamp(5rem, 15vw, 10rem);
-  font-weight: 700;
-  color: var(--red);
-  line-height: 1;
-  text-shadow: 0 0 60px rgba(227, 24, 55, 0.3);
-}
-
 .hero-name {
   display: block;
-  font-family: var(--font-body);
-  font-size: clamp(1.2rem, 4vw, 2.5rem);
-  font-weight: 300;
-  letter-spacing: 15px;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 8px;
   color: var(--white);
+  text-shadow: 0 0 30px rgba(227, 24, 55, 0.3);
 }
 
 .hero-tagline {
@@ -538,9 +532,23 @@
 }
 
 .footer-logo {
-  height: 80px;
-  width: auto;
+  height: 90px;
+  width: 90px;
+  object-fit: contain;
+  border-radius: 50%;
   margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px rgba(227, 24, 55, 0.3));
+  transition: filter 0.3s;
+}
+
+.footer-logo:hover {
+  filter: drop-shadow(0 0 20px rgba(227, 24, 55, 0.6));
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .footer-brand .logo-text {
