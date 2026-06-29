@@ -168,7 +168,8 @@ function App() {
       <nav className="navbar">
         <div className="container nav-content">
           <a href="#accueil" className="nav-logo">
-            <img src="/logo.png" alt="3P Chicken Pops" className="nav-logo-img" />
+            <span className="logo-3p">3P</span>
+            <span className="logo-text">CHICKEN POPS</span>
           </a>
           <button className="hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             <span className={`bar ${mobileMenuOpen ? 'open' : ''}`}></span>

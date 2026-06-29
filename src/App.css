@@ -20,6 +20,7 @@
 .nav-logo {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   transition: transform 0.3s;
 }
 
@@ -27,17 +28,22 @@
   transform: scale(1.05);
 }
 
-.nav-logo-img {
-  height: 55px;
-  width: 55px;
-  object-fit: contain;
-  border-radius: 50%;
-  filter: drop-shadow(0 0 8px rgba(227, 24, 55, 0.4));
-  transition: filter 0.3s;
+.logo-3p {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(227, 24, 55, 0.5);
 }
 
-.nav-logo:hover .nav-logo-img {
-  filter: drop-shadow(0 0 15px rgba(227, 24, 55, 0.7));
+.logo-text {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--white);
+  text-transform: uppercase;
 }
 
 .nav-links {
