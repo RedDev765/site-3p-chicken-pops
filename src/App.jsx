@@ -200,7 +200,7 @@ function App() {
         </div>
         <div className="container hero-content" ref={heroRef}>
           <div className={`hero-logo-wrapper reveal-scale ${heroVisible ? 'visible' : ''}`}>
-            <img src="/logo.png" alt="3P Chicken Pops" className="hero-logo" />
+            <span className="hero-3p">3P</span>
           </div>
           <h1 className="hero-title">
             <span className={`hero-name reveal delay-2 ${heroVisible ? 'visible' : ''}`}>CHICKEN POPS</span>
