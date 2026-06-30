@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useScrollReveal, useCountUp } from './useScrollReveal'
 import './App.css'
 
@@ -146,6 +146,26 @@ function StatCard({ number, suffix, label, delay }) {
   )
 }
 
+function ScrollToTop() {
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => setShow(window.scrollY > 400)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <button
+      className={`scroll-top ${show ? 'visible' : ''}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Retour en haut"
+    >
+      &#8593;
+    </button>
+  )
+}
+
 function App() {
   const [activeCategory, setActiveCategory] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -209,7 +229,7 @@ function App() {
           <p className={`hero-address reveal delay-4 ${heroVisible ? 'visible' : ''}`}>19 Rue Iligh, Agadir 80000</p>
           <div className={`hero-buttons reveal delay-5 ${heroVisible ? 'visible' : ''}`}>
             <a href="#menu" className="btn btn-primary">Voir le Menu</a>
-            <a href="#contact" className="btn btn-outline">Nous Contacter</a>
+            <a href="https://glovoapp.com/fr/ma/agadir/stores/3p-chickn-pops-agd" target="_blank" rel="noopener noreferrer" className="btn btn-glovo">Commander sur Glovo</a>
           </div>
           <div className={`hero-info reveal delay-6 ${heroVisible ? 'visible' : ''}`}>
             <div className="hero-info-item">
@@ -406,6 +426,7 @@ function App() {
           <p>&copy; 2026 3P Chicken Pops. Tous droits réservés.</p>
         </div>
       </footer>
+      <ScrollToTop />
     </div>
   )
 }
